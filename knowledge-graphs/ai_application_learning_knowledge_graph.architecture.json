@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "AI 应用开发学习知识图谱",
+    "output": "ai_application_learning_knowledge_graph.html",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [1360, 780],
+    "views": [
+      {
+        "id": "main-learning-path",
+        "label": "主学习路径",
+      "focus": ["goal", "ios", "backend", "provider", "contract", "ai_orchestration", "model_api", "streaming", "app_result"],
+        "note": "从业务问题出发，经过客户端、后端、数据、AI 编排，再回到可交互结果。"
+      },
+      {
+        "id": "reliability-path",
+        "label": "稳定性闭环",
+        "focus": ["streaming", "error_handling", "backend", "ios"],
+        "note": "流式应用要把失败原因、降级输出和客户端状态恢复放在同一条链路里看。"
+      },
+      {
+        "id": "rag-next",
+        "label": "RAG 下一课",
+        "focus": ["provider", "rag", "ai_orchestration", "app_result"],
+        "note": "Provider 给事实，RAG 给背景知识，模型负责把两者组织成回答。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "goal",
+      "type": "external",
+      "label": "业务问题",
+      "sublabel": "财报分析",
+      "pos": [80, 390],
+      "size": [145, 72]
+    },
+    {
+      "id": "ios",
+      "type": "frontend",
+      "label": "iOS 客户端",
+      "sublabel": "Moya / SSE",
+      "tag": "Codable + SSE",
+      "pos": [300, 390],
+      "size": [165, 76]
+    },
+    {
+      "id": "backend",
+      "type": "backend",
+      "label": "FastAPI 后端",
+      "sublabel": "/analyze/stream",
+      "tag": "API Key 留在后端",
+      "pos": [550, 390],
+      "size": [185, 76]
+    },
+    {
+      "id": "provider",
+      "type": "backend",
+      "label": "数据 Provider",
+      "sublabel": "SEC / A 股",
+      "pos": [805, 390],
+      "size": [175, 76]
+    },
+    {
+      "id": "contract",
+      "type": "database",
+      "label": "统一数据契约",
+      "sublabel": "Pydantic / Codable",
+      "tag": "结构化输出",
+      "pos": [1085, 390],
+      "size": [180, 76]
+    },
+    {
+      "id": "ai_orchestration",
+      "type": "cloud",
+      "label": "AI 编排层",
+      "sublabel": "Prompt / Schema",
+      "tag": "timeout + fallback",
+      "pos": [1085, 120],
+      "size": [180, 76]
+    },
+    {
+      "id": "model_api",
+      "type": "external",
+      "label": "模型服务",
+      "sublabel": "Responses API",
+      "pos": [805, 120],
+      "size": [175, 76]
+    },
+    {
+      "id": "streaming",
+      "type": "messagebus",
+      "label": "SSE 流式服务",
+      "sublabel": "status / delta / done",
+      "tag": "heartbeat",
+      "pos": [550, 120],
+      "size": [185, 76]
+    },
+    {
+      "id": "app_result",
+      "type": "frontend",
+      "label": "可用分析结果",
+      "sublabel": "实时结果",
+      "pos": [300, 120],
+      "size": [165, 76]
+    },
+    {
+      "id": "error_handling",
+      "type": "security",
+      "label": "错误与降级",
+      "sublabel": "网络错误 / AI 错误",
+      "tag": "打印根因",
+      "pos": [550, 650],
+      "size": [185, 76]
+    },
+    {
+      "id": "rag",
+      "type": "database",
+      "label": "RAG 知识库",
+      "sublabel": "检索增强生成",
+      "tag": "下一阶段",
+      "pos": [805, 650],
+      "size": [175, 76]
+    },
+    {
+      "id": "engineering",
+      "type": "security",
+      "label": "工程化规则",
+      "sublabel": "OpenSpec / Mock / Verify",
+      "pos": [80, 650],
+      "size": [170, 76]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "当前课程主线：财报 AI 应用",
+      "wraps": ["goal", "ios", "backend", "provider", "contract", "ai_orchestration", "model_api", "streaming", "app_result", "error_handling", "rag", "engineering"],
+      "pad": 32
+    },
+    {
+      "kind": "security-group",
+      "label": "后端可信边界",
+      "wraps": ["backend", "provider", "contract", "ai_orchestration", "streaming", "error_handling", "rag"],
+      "pad": 26
+    }
+  ],
+  "connections": [
+    {
+      "id": "goal-to-ios",
+      "from": "goal",
+      "to": "ios",
+      "label": "用户触发分析",
+      "variant": "emphasis",
+      "labelDy": 70
+    },
+    {
+      "id": "ios-to-backend",
+      "from": "ios",
+      "to": "backend",
+      "label": "HTTP 请求 + SSE 读取",
+      "variant": "emphasis",
+      "labelDy": 70
+    },
+    {
+      "id": "backend-to-provider",
+      "from": "backend",
+      "to": "provider",
+      "label": "拉取财务事实",
+      "labelDy": 70
+    },
+    {
+      "id": "provider-to-contract",
+      "from": "provider",
+      "to": "contract",
+      "label": "归一化字段",
+      "labelAt": [1035, 360]
+    },
+    {
+      "id": "contract-to-ai",
+      "from": "contract",
+      "to": "ai_orchestration",
+      "label": "事实注入 Prompt",
+      "labelDx": 112
+    },
+    {
+      "id": "ai-to-model",
+      "from": "ai_orchestration",
+      "to": "model_api",
+      "label": "Responses API 调用",
+      "labelDy": -32
+    },
+    {
+      "id": "model-to-stream",
+      "from": "model_api",
+      "to": "streaming",
+      "label": "模型输出进入 SSE",
+      "variant": "dashed",
+      "labelDy": -32
+    },
+    {
+      "id": "stream-to-result",
+      "from": "streaming",
+      "to": "app_result",
+      "label": "delta 逐步渲染",
+      "variant": "emphasis",
+      "labelAt": [425, 88]
+    },
+    {
+      "id": "backend-to-error",
+      "from": "backend",
+      "to": "error_handling",
+      "label": "超时 / 额度 / 参数错误",
+      "labelAt": [780, 535]
+    },
+    {
+      "id": "provider-to-rag",
+      "from": "provider",
+      "to": "rag",
+      "label": "匹配上下文",
+      "labelAt": [980, 535]
+    },
+    {
+      "id": "rag-to-contract",
+      "from": "rag",
+      "to": "contract",
+      "label": "补充背景知识",
+      "variant": "dashed",
+      "labelAt": [1055, 610]
+    },
+    {
+      "id": "engineering-to-backend",
+      "from": "engineering",
+      "to": "goal",
+      "label": "定义学习节奏",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "bottom",
+      "labelDx": 105
+    }
+  ]
+}
