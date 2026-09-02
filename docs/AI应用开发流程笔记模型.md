@@ -163,6 +163,12 @@
 
 哪些地方必须保持同步：
 
+关键节点职责表：
+
+| 节点 | 接收什么 | 它做什么 | 输出什么 | 为什么需要它 |
+|---|---|---|---|---|
+| 节点名 | 上游输入 | 核心动作 | 下游输出 | 在流程中的价值 |
+
 ## 6. 关键角色分工
 
 iOS 负责：
@@ -472,8 +478,27 @@ RAG = Retrieval-Augmented Generation。
 资料准备链路：
 文档是原始知识；chunk 把长文档拆成可检索片段；embedding 把片段转成语义向量；vector store 保存向量、原文和来源元数据。
 
+资料准备节点职责：
+
+| 节点 | 接收什么 | 它做什么 | 输出什么 | 为什么需要它 |
+|---|---|---|---|---|
+| document | 原始资料 | 提供知识来源 | 长文本 | 没有文档就没有外部知识 |
+| chunk | 长文档 | 切成小片段 | 可检索文本块 | 让检索更精确，也避免整篇文档塞进 Prompt |
+| embedding | chunk 文本 | 转成语义向量 | 数字向量 | 让文本可以按语义相似度比较 |
+| vector store | chunk、向量、元数据 | 存储并建立可查询索引 | 可检索知识库 | 在线提问时能快速找相关资料 |
+
 用户提问链路：
 question 先转成 embedding；retrieve 用问题向量找最相关的 chunks；prompt 把问题和 retrieved_context 放在一起；answer 是模型基于上下文生成的回答。
+
+用户提问节点职责：
+
+| 节点 | 接收什么 | 它做什么 | 输出什么 | 为什么需要它 |
+|---|---|---|---|---|
+| question | 用户问题 | 表达查询意图 | 查询文本 | 在线问答入口 |
+| question embedding | 用户问题 | 转成语义向量 | 问题向量 | 和 chunk 向量做相似度比较 |
+| retrieve | 问题向量、vector store | 找 topK 相关 chunk | retrieved_context | 取出回答所需资料 |
+| prompt | question、retrieved_context | 组织模型输入 | 完整上下文 | 约束模型基于资料回答 |
+| answer | prompt | 生成回答 | 答案和引用 | 返回给用户的最终结果 |
 
 输入：
 用户问题、Provider 事实、可检索知识库。
