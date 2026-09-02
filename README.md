@@ -12,6 +12,19 @@
 
 ## 复习入口
 
+### 配套知识图谱
+
+这张图是用 `archify` 生成的 AI 应用开发流程图，用来先建立整体结构感。
+
+![AI 应用开发学习知识图谱](knowledge-graphs/ai_application_learning_knowledge_graph.visual-check.1440x900.light.png)
+
+交互版：
+
+- [AI 应用开发学习知识图谱 HTML](knowledge-graphs/ai_application_learning_knowledge_graph.html)
+- [Archify 源文件](knowledge-graphs/ai_application_learning_knowledge_graph.architecture.json)
+
+---
+
 建议按这个顺序复习：
 
 ```text
@@ -26,7 +39,7 @@
 - [学习路线](docs/00_学习路线.md)
 - [AI 应用开发阶段复习笔记](docs/AI应用开发阶段复习笔记.md)
 - [AI 应用开发流程笔记模型](docs/AI应用开发流程笔记模型.md)
-- [AI 应用开发学习知识图谱](knowledge-graphs/ai_application_learning_knowledge_graph.html)
+- [AI 应用开发学习知识图谱 HTML](knowledge-graphs/ai_application_learning_knowledge_graph.html)
 
 ---
 
@@ -58,5 +71,5 @@ docs/
 knowledge-graphs/
   ai_application_learning_knowledge_graph.html
   ai_application_learning_knowledge_graph.architecture.json
+  ai_application_learning_knowledge_graph.visual-check.1440x900.light.png
 ```
-
