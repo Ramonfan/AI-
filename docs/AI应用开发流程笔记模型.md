@@ -465,6 +465,16 @@ RAG = Retrieval-Augmented Generation。
 不用 RAG：P(answer | question)
 使用 RAG：P(answer | question + retrieved_context)
 
+两条主干：
+资料准备：文档 -> chunk -> embedding -> vector store
+用户提问：question -> embedding -> retrieve -> prompt -> answer
+
+资料准备链路：
+文档是原始知识；chunk 把长文档拆成可检索片段；embedding 把片段转成语义向量；vector store 保存向量、原文和来源元数据。
+
+用户提问链路：
+question 先转成 embedding；retrieve 用问题向量找最相关的 chunks；prompt 把问题和 retrieved_context 放在一起；answer 是模型基于上下文生成的回答。
+
 输入：
 用户问题、Provider 事实、可检索知识库。
 
@@ -473,9 +483,18 @@ topK 相关上下文，进入 Prompt，并在客户端展示引用。
 
 失败路径：
 检索为空时不阻断主流程；模型不可用时规则层仍可展示参考知识。
+
+验证方式：
+能看到命中的 chunk、分数、来源；能证明这些上下文进入了 prompt；客户端能展示引用。
 ```
 
 这样以后学向量库、Embedding、Rerank 时，都能放回 RAG 这条主线里。
+
+RAG 类笔记必须明确区分：
+
+- 离线资料准备链路：知识如何进入系统。
+- 在线用户提问链路：知识如何参与回答。
+- 检索结果可观测性：为什么命中、命中了什么、有没有进入 Prompt。
 
 ---
 

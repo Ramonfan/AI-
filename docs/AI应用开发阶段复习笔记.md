@@ -333,19 +333,35 @@ P(answer | question + retrieved_context)
 
 意思是：先检索相关资料，再让模型基于资料回答。
 
-标准流程：
+RAG 主干分成两条链路：
 
 ```text
-文档加载
--> 切片 Chunk
--> 向量化 Embedding
--> 建索引
--> 检索 Retrieve
--> 可选重排 Rerank
--> 拼进 Prompt
--> 模型生成
--> 返回答案和引用
+资料准备：文档 -> chunk -> embedding -> vector store
+用户提问：question -> embedding -> retrieve -> prompt -> answer
 ```
+
+资料准备链路是离线过程：
+
+```text
+文档
+-> 切成 chunk
+-> 每个 chunk 生成 embedding
+-> 把 chunk、embedding、来源元数据写入 vector store
+```
+
+它解决的是“知识怎么进入系统，并变成可检索资产”。
+
+用户提问链路是在线过程：
+
+```text
+用户问题 question
+-> 问题生成 embedding
+-> 从 vector store 检索相关 chunk
+-> 把 question + retrieved_context 拼进 prompt
+-> 模型生成 answer
+```
+
+它解决的是“回答时怎么把相关知识拿出来，并放进模型上下文”。
 
 在我们的财报应用里，要区分三件事：
 
@@ -358,7 +374,8 @@ AI 生成：把事实和知识组织成中文分析
 复习时重点看：
 
 - RAG 为什么不是“让 AI 联网搜索”
-- Chunk / Embedding / Retrieve 分别做什么
+- 资料准备链路和用户提问链路分别解决什么
+- Chunk / Embedding / Vector Store / Retrieve / Prompt 分别做什么
 - 为什么要把引用上下文展示给用户
 
 ---
