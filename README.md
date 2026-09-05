@@ -41,6 +41,7 @@
 - [AI 应用开发流程笔记模型](docs/AI应用开发流程笔记模型.md)
 - [技能卡片：RAG Chunk 切片](docs/技能卡片_RAG_Chunk切片.md)
 - [技能卡片：RAG Embedding 向量化](docs/技能卡片_RAG_Embedding向量化.md)
+- [技能卡片：RAG Vector Store 向量库](docs/技能卡片_RAG_VectorStore向量库.md)
 - [AI 应用开发学习知识图谱 HTML](knowledge-graphs/ai_application_learning_knowledge_graph.html)
 
 ---
@@ -69,6 +70,7 @@ docs/
   AI应用开发流程笔记模型.md
   技能卡片_RAG_Chunk切片.md
   技能卡片_RAG_Embedding向量化.md
+  技能卡片_RAG_VectorStore向量库.md
   01_第1课_做出SwiftUI界面.md
   ...
 
